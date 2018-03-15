@@ -12,30 +12,30 @@ import java.util.Locale;
  * @author victor
  */
 public class MainFrame extends javax.swing.JFrame {
-
+    
     private enum OperatorType {
         NONE, ADD, SUBTRACT, MULTIPLY, DIVIDE
     }
-
+    
     private double accumulator, operand;
     private OperatorType operator;
     private char decimalSeparator;
     private boolean erase;
-
+    
     public MainFrame() {
         initComponents();
         initMyFields();
     }
-
+    
     public void initMyFields() {
         accumulator = 0;
         operand = 0;
         operator = OperatorType.NONE;
         erase = false;
         decimalSeparator = getDecimalSeparator();
-
+        
     }
-
+    
     private void eraseIfNeededAndWriteNumber(String numberStr) {
         if (erase) {
             textFieldDisplay.setText("");
@@ -43,19 +43,19 @@ public class MainFrame extends javax.swing.JFrame {
         }
         textFieldDisplay.setText(textFieldDisplay.getText() + numberStr);
     }
-
+    
     public char getDecimalSeparator() {
         DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.getDefault());
         return dfs.getDecimalSeparator();
     }
-
+    
     private void calculateResult() {
         operand = Double.parseDouble(textFieldDisplay.getText());
         switch (operator) {
             case ADD:
                 accumulator += operand;
                 break;
-
+            
             case SUBTRACT:
                 accumulator -= operand;
                 break;
@@ -65,13 +65,13 @@ public class MainFrame extends javax.swing.JFrame {
             case DIVIDE:
                 accumulator /= operand;
                 break;
-
+            
             case NONE:
                 accumulator = operand;
                 break;
         }
     }
-
+    
     private void displayResult() {
         textFieldDisplay.setText("" + accumulator);
     }
@@ -361,36 +361,52 @@ public class MainFrame extends javax.swing.JFrame {
         eraseIfNeededAndWriteNumber("0");    }//GEN-LAST:event_btn0ActionPerformed
 
     private void btnCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCActionPerformed
-        // TODO add your handling code here:
+        initMyFields();
+        textFieldDisplay.setText("");
+        
     }//GEN-LAST:event_btnCActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        erase = true;
-        calculateResult();
-        displayResult();
-        operator = OperatorType.ADD;
+        if (!erase) {
+            erase = true;
+            calculateResult();
+            displayResult();
+            operator = OperatorType.ADD;
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnSubtractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubtractActionPerformed
-        erase = true;
-        calculateResult();
-        displayResult();
-        operator = OperatorType.SUBTRACT;    }//GEN-LAST:event_btnSubtractActionPerformed
+        if (!erase) {
+            erase = true;
+            calculateResult();
+            displayResult();
+            operator = OperatorType.SUBTRACT;
+        }    }//GEN-LAST:event_btnSubtractActionPerformed
 
     private void btnMultiplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultiplyActionPerformed
-        erase = true;
-        calculateResult();
-        displayResult();
-        operator = OperatorType.MULTIPLY;    }//GEN-LAST:event_btnMultiplyActionPerformed
+        
+        if (!erase) {
+            erase = true;
+            calculateResult();
+            displayResult();
+            operator = OperatorType.MULTIPLY;
+        }    }//GEN-LAST:event_btnMultiplyActionPerformed
 
     private void btnDivideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDivideActionPerformed
-        erase = true;
-        calculateResult();
-        displayResult();
-        operator = OperatorType.DIVIDE;    }//GEN-LAST:event_btnDivideActionPerformed
+        if (!erase) {
+            erase = true;
+            calculateResult();
+            displayResult();
+            operator = OperatorType.DIVIDE;
+        }
+         }//GEN-LAST:event_btnDivideActionPerformed
 
     private void btnEqualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEqualActionPerformed
-        // TODO add your handling code here:
+        if (!erase) {
+            erase = true;
+            calculateResult();
+            displayResult();
+        }
     }//GEN-LAST:event_btnEqualActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
