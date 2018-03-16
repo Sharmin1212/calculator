@@ -1,4 +1,5 @@
 
+import java.math.BigDecimal;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
@@ -12,30 +13,30 @@ import java.util.Locale;
  * @author victor
  */
 public class MainFrame extends javax.swing.JFrame {
-    
+
     private enum OperatorType {
         NONE, ADD, SUBTRACT, MULTIPLY, DIVIDE
     }
-    
+
     private double accumulator, operand;
     private OperatorType operator;
     private char decimalSeparator;
     private boolean erase;
-    
+
     public MainFrame() {
         initComponents();
         initMyFields();
     }
-    
+
     public void initMyFields() {
         accumulator = 0;
         operand = 0;
         operator = OperatorType.NONE;
         erase = false;
         decimalSeparator = getDecimalSeparator();
-        
+
     }
-    
+
     private void eraseIfNeededAndWriteNumber(String numberStr) {
         if (erase) {
             textFieldDisplay.setText("");
@@ -43,19 +44,19 @@ public class MainFrame extends javax.swing.JFrame {
         }
         textFieldDisplay.setText(textFieldDisplay.getText() + numberStr);
     }
-    
+
     public char getDecimalSeparator() {
         DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.getDefault());
         return dfs.getDecimalSeparator();
     }
-    
+
     private void calculateResult() {
         operand = Double.parseDouble(textFieldDisplay.getText());
         switch (operator) {
             case ADD:
                 accumulator += operand;
                 break;
-            
+
             case SUBTRACT:
                 accumulator -= operand;
                 break;
@@ -65,15 +66,22 @@ public class MainFrame extends javax.swing.JFrame {
             case DIVIDE:
                 accumulator /= operand;
                 break;
-            
+
             case NONE:
                 accumulator = operand;
                 break;
         }
     }
-    
+
     private void displayResult() {
-        textFieldDisplay.setText("" + accumulator);
+        String s = "" + accumulator;
+        if (s.contains(".")) {
+            s = s.replaceAll("0+$", "");
+            s = s.replaceAll(".$", "");
+        }
+        textFieldDisplay.setText(s);
+        //BigDecimal number = new BigDecimal(accumulator);
+        //textFieldDisplay.setText(number.stripTrailingZeros().toPlainString());
     }
 
     /**
@@ -363,7 +371,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void btnCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCActionPerformed
         initMyFields();
         textFieldDisplay.setText("");
-        
+
     }//GEN-LAST:event_btnCActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -384,7 +392,7 @@ public class MainFrame extends javax.swing.JFrame {
         }    }//GEN-LAST:event_btnSubtractActionPerformed
 
     private void btnMultiplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultiplyActionPerformed
-        
+
         if (!erase) {
             erase = true;
             calculateResult();
